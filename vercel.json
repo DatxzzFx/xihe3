@@ -1,0 +1,56 @@
+{
+  "functions": {
+    "api/dns.js": {
+      "maxDuration": 30,
+      "memory": 3008
+    },
+    "api/doh.js": {
+      "maxDuration": 30,
+      "memory": 3008
+    },
+    "api/dot.js": {
+      "maxDuration": 30,
+      "memory": 3008
+    },
+    "api/stats.js": {
+      "maxDuration": 10
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/dns-query",
+      "destination": "/api/doh.js"
+    },
+    {
+      "source": "/dot",
+      "destination": "/api/dot.js"
+    },
+    {
+      "source": "/stats",
+      "destination": "/api/stats.js"
+    },
+    {
+      "source": "/api/dns",
+      "destination": "/api/dns.js"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/public/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-DNS-Power",
+          "value": "Real-DNS-Server-v3"
+        },
+        {
+          "key": "Strict-Transport-Security",
+          "value": "max-age=31536000; includeSubDomains"
+        }
+      ]
+    }
+  ]
+}
